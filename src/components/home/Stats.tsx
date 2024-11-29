@@ -1,6 +1,4 @@
-"use client"
-
-import { motion } from "motion/react"
+import MotionDiv from "@/components/animations/MotionDiv"
 import { Users, CheckCircle, Clock, Award } from "lucide-react"
 
 const stats = [
@@ -38,10 +36,9 @@ const stats = [
   }
 ]
 
-export function Stats() {
+export default function Stats() {
   return (
     <section className="relative pt-36 pb-24 overflow-hidden bg-black" id="stats">
-      {/* Background Elements */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-grid-white/[0.05] bg-grid" />
       </div>
@@ -52,7 +49,7 @@ export function Stats() {
           {stats.map((stat, index) => {
             const Icon = stat.icon
             return (
-              <motion.div
+              <MotionDiv
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -60,45 +57,38 @@ export function Stats() {
                 transition={{ delay: stat.delay }}
                 className="group relative"
               >
-                {/* Card */}
                 <div className="relative bg-gray-900/50 backdrop-blur-xl rounded-3xl p-8 h-full overflow-hidden">
-                  {/* Gradient Background */}
                   <div className="absolute inset-0 bg-gradient-to-b opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out">
                     <div className={`absolute inset-0 bg-gradient-to-br ${stat.bgGradient}`} />
                     <div className="absolute inset-0 backdrop-blur-3xl" />
                   </div>
 
-                  {/* Content */}
                   <div className="relative z-10 flex flex-col items-center text-center">
-                    {/* Icon */}
                     <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${stat.gradient} p-0.5 mb-6 group-hover:scale-110 transition-transform duration-300`}>
                       <div className="w-full h-full bg-gray-900 rounded-2xl flex items-center justify-center">
                         <Icon className="w-8 h-8 text-white" />
                       </div>
                     </div>
 
-                    {/* Stats */}
-                    <motion.h3
+                    <MotionDiv
                       initial={{ scale: 0.5 }}
                       whileInView={{ scale: 1 }}
                       viewport={{ once: true }}
                       className={`text-4xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r ${stat.gradient}`}
                     >
                       {stat.value}
-                    </motion.h3>
+                    </MotionDiv>
                     <p className="text-gray-400 font-medium group-hover:text-gray-300 transition-colors duration-300">
                       {stat.label}
                     </p>
 
-                    {/* Decorative Elements */}
                     <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-white/5 to-transparent rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
                     <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-br from-white/5 to-transparent rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
                   </div>
 
-                  {/* Hover Border */}
                   <div className="absolute inset-0 rounded-3xl border border-gray-800 group-hover:border-gray-700/50 transition-colors duration-300" />
                 </div>
-              </motion.div>
+              </MotionDiv>
             )
           })}
         </div>

@@ -1,16 +1,18 @@
 "use client"
 
-import { motion, useTransform, MotionValue } from "motion/react"
+import { useTransform, MotionValue } from "motion/react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from "lucide-react"
+import MotionDiv from "@/components/animations/MotionDiv"
+import MotionH1 from "@/components/animations/MotionH1"
 
 interface HeroProps {
   scrollProgress: MotionValue<number>
 }
 
-export function Hero({ scrollProgress }: HeroProps) {
+export default function Hero({ scrollProgress }: HeroProps) {
   const imageScale = useTransform(scrollProgress, [0, 0.5], [1.1, 1.3])
   const opacity = useTransform(scrollProgress, [0, 0.3], [1, 0])
   const textY = useTransform(scrollProgress, [0, 0.3], [0, 100])
@@ -18,8 +20,7 @@ export function Hero({ scrollProgress }: HeroProps) {
   
   return (
     <div className="fixed inset-0 w-full h-screen overflow-hidden">
-      {/* Background Image with Overlay */}
-      <motion.div 
+      <MotionDiv 
         style={{ 
           scale: imageScale,
           filter: `blur(${blur}px)`,
@@ -35,21 +36,18 @@ export function Hero({ scrollProgress }: HeroProps) {
         />
         <div className="absolute inset-0 bg-grid-white/[0.05] bg-grid z-10" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/80 z-20" />
-      </motion.div>
+      </MotionDiv>
 
-      {/* Content */}
-      <motion.div 
+      <MotionDiv 
         style={{ opacity, y: textY }}
         className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4"
       >
-        {/* Decorative Elements */}
         <div className="absolute inset-0 bg-gradient-to-b from-primary-500/10 via-transparent to-transparent" />
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary-500/10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-secondary-500/10 rounded-full blur-3xl" />
 
-        {/* Main Content */}
         <div className="relative z-10 max-w-4xl mx-auto">
-          <motion.h1 
+          <MotionH1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -59,25 +57,25 @@ export function Hero({ scrollProgress }: HeroProps) {
             <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-secondary-400">
               With Ease
             </span>
-          </motion.h1>
+          </MotionH1>
 
-          <motion.p 
+          <MotionDiv 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto mb-12"
           >
             Streamline your workflow, collaborate seamlessly, and deliver projects on time
-          </motion.p>
+          </MotionDiv>
 
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Link href="/register">
-              <motion.div
+              <MotionDiv
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="group relative"
@@ -89,7 +87,7 @@ export function Hero({ scrollProgress }: HeroProps) {
                   Get Started
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </Button>
-              </motion.div>
+              </MotionDiv>
             </Link>
 
             <Link href="#features">
@@ -100,9 +98,9 @@ export function Hero({ scrollProgress }: HeroProps) {
                 Learn More
               </Button>
             </Link>
-          </motion.div>
+          </MotionDiv>
         </div>
-      </motion.div>
+      </MotionDiv>
     </div>
   )
 }

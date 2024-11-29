@@ -1,7 +1,7 @@
-"use client"
-
-import { motion } from "motion/react"
-import { ArrowRight, Check } from "lucide-react"
+import { ArrowRight, Check } from "lucide-react";
+import MotionDiv from "@/components/animations/MotionDiv"
+import H2 from "@/components/animations/MotionH2"
+import MotionP from "@/components/animations/MotionP"
 
 const features = [
   "Unlimited Projects",
@@ -12,10 +12,9 @@ const features = [
   "API Access"
 ]
 
-export function CallToAction() {
+const CallToAction = () => {
   return (
     <section className="relative py-32 overflow-hidden bg-black" id="cta">
-      {/* Background Elements */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-grid-white/[0.05] bg-grid" />
       </div>
@@ -23,8 +22,7 @@ export function CallToAction() {
 
       <div className="container relative z-[2] mx-auto px-4">
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-gray-900/80 to-black/80 backdrop-blur-xl border border-gray-800">
-          {/* Decorative Elements */}
-          <motion.div
+          <MotionDiv
             animate={{ 
               rotate: [0, 360],
               scale: [1, 1.2, 1]
@@ -36,7 +34,7 @@ export function CallToAction() {
             }}
             className="absolute -right-20 -top-20 w-80 h-80 bg-primary-500/10 rounded-full blur-3xl"
           />
-          <motion.div
+          <MotionDiv
             animate={{ 
               rotate: [360, 0],
               scale: [1, 1.3, 1]
@@ -49,10 +47,9 @@ export function CallToAction() {
             className="absolute -left-20 -bottom-20 w-80 h-80 bg-secondary-500/10 rounded-full blur-3xl"
           />
 
-          {/* Content */}
           <div className="relative grid md:grid-cols-2 gap-12 p-8 md:p-12">
             <div>
-              <motion.h2
+              <H2
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -62,8 +59,8 @@ export function CallToAction() {
                 <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-secondary-400">
                   Project Management?
                 </span>
-              </motion.h2>
-              <motion.p
+              </H2>
+              <MotionP
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -71,8 +68,8 @@ export function CallToAction() {
                 className="text-lg text-gray-300 mb-8"
               >
                 Join thousands of teams who have already revolutionized their workflow with our platform.
-              </motion.p>
-              <motion.ul
+              </MotionP>
+              <MotionDiv
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -80,7 +77,7 @@ export function CallToAction() {
                 className="grid grid-cols-2 gap-4 mb-8"
               >
                 {features.map((feature, index) => (
-                  <motion.li
+                  <MotionDiv
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -94,13 +91,13 @@ export function CallToAction() {
                       </div>
                     </div>
                     {feature}
-                  </motion.li>
+                  </MotionDiv>
                 ))}
-              </motion.ul>
+              </MotionDiv>
             </div>
 
             <div className="flex items-center justify-center">
-              <motion.div
+              <MotionDiv
                 initial={{ opacity: 0, scale: 0.5 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
@@ -118,21 +115,21 @@ export function CallToAction() {
                         placeholder="Enter your email"
                         className="w-full px-4 py-3 rounded-xl bg-white/5 border border-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all duration-300"
                       />
-                      <motion.button
+                      <MotionDiv
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         className="w-full px-6 py-3 bg-gradient-to-r from-primary-500 to-secondary-500 hover:from-primary-600 hover:to-secondary-600 text-white rounded-xl font-medium flex items-center justify-center gap-2 group transition-all duration-300"
                       >
                         Get Started
                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                      </motion.button>
+                      </MotionDiv>
                     </div>
                     <p className="text-sm text-gray-400 mt-4 text-center">
                       No credit card required
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </MotionDiv>
             </div>
           </div>
         </div>
@@ -140,3 +137,5 @@ export function CallToAction() {
     </section>
   )
 }
+
+export default CallToAction;

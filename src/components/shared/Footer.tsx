@@ -1,10 +1,8 @@
-"use client"
-
-import { motion } from "motion/react"
 import Link from "next/link"
 import { Github, Twitter, Linkedin } from "lucide-react"
 import Image from "next/image"
 import logo from '@/assets/projecify full logo white.png'
+import MotionDiv from "@/components/animations/MotionDiv"
 
 const footerLinks = {
   product: [
@@ -38,11 +36,9 @@ const socialLinks = [
   { Icon: Twitter, href: "https://twitter.com" },
   { Icon: Linkedin, href: "https://linkedin.com" },
 ]
-
-export function Footer() {
+const Footer = () => {
   return (
     <footer className="relative overflow-hidden bg-black py-24">
-      {/* Background Elements */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-grid-white/[0.05] bg-grid" />
       </div>
@@ -50,9 +46,8 @@ export function Footer() {
 
       <div className="container relative z-[2] mx-auto px-4">
         <div className="grid grid-cols-2 md:grid-cols-12 gap-8 mb-12">
-          {/* Brand */}
           <div className="col-span-2 md:col-span-4">
-            <motion.div
+            <MotionDiv
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -69,18 +64,17 @@ export function Footer() {
               <p className="text-gray-400">
                 Modern project management for modern teams.
               </p>
-            </motion.div>
+            </MotionDiv>
           </div>
 
-          {/* Links */}
           {Object.entries(footerLinks).map(([title, links], index) => (
             <div key={title} className="col-span-1 md:col-span-2">
-              <motion.div
+              <MotionDiv
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.1 * index }}
-                className="ml-auto"
+                className="ml-auto text-center md:text-left"
               >
                 <h4 className="text-white font-semibold mb-4 capitalize">
                   {title}
@@ -97,13 +91,12 @@ export function Footer() {
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </MotionDiv>
             </div>
           ))}
         </div>
 
-        {/* Bottom Section */}
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -111,10 +104,9 @@ export function Footer() {
           className="border-t border-gray-800 pt-8 mt-8 flex flex-col md:flex-row justify-between items-center gap-4"
         >
           <p className="text-gray-400 text-sm">
-            © {new Date().getFullYear()} Projecify. All rights reserved.
+            © {new Date().getFullYear()} Try N Test Foundation, Inc. All rights reserved.
           </p>
 
-          {/* Social Links */}
           <div className="flex items-center gap-4">
             {socialLinks.map(({ Icon, href }, index) => (
               <Link 
@@ -128,8 +120,10 @@ export function Footer() {
               </Link>
             ))}
           </div>
-        </motion.div>
+        </MotionDiv>
       </div>
     </footer>
   )
 }
+
+export default Footer;

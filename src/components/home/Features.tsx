@@ -1,6 +1,4 @@
-"use client"
-
-import { motion } from "motion/react"
+import MotionDiv from "@/components/animations/MotionDiv"
 import { 
   BarChart2, 
   Users, 
@@ -61,15 +59,14 @@ const features = [
   }
 ]
 
-export function Features() {
+export default function Features() {
   return (
     <section className="relative py-32 bg-black" id="features">
-      {/* Background Elements */}
       <div className="absolute inset-0 bg-grid-white/[0.02] bg-grid" />
       <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black" />
 
       <div className="container relative mx-auto px-4">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -84,11 +81,11 @@ export function Features() {
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
             Everything you need to manage projects effectively and boost team productivity
           </p>
-        </motion.div>
+        </MotionDiv>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <motion.div
+            <MotionDiv
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -96,24 +93,19 @@ export function Features() {
               transition={{ delay: feature.delay }}
               className="group relative"
             >
-              {/* Card */}
               <div className="relative h-full bg-gray-900/50 backdrop-blur-xl rounded-3xl p-8 overflow-hidden">
-                {/* Gradient Background */}
                 <div className="absolute inset-0 bg-gradient-to-b opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out">
                   <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient}`} />
                   <div className="absolute inset-0 backdrop-blur-3xl" />
                 </div>
 
-                {/* Content */}
                 <div className="relative z-10">
-                  {/* Icon */}
                   <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${feature.iconGradient} p-0.5 mb-8 group-hover:scale-110 transition-transform duration-300`}>
                     <div className="w-full h-full bg-gray-900 rounded-2xl flex items-center justify-center">
                       <feature.icon className="w-7 h-7 text-white" />
                     </div>
                   </div>
 
-                  {/* Text Content */}
                   <h3 className="text-xl font-semibold text-white mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-300 transition-all duration-300">
                     {feature.title}
                   </h3>
@@ -122,10 +114,9 @@ export function Features() {
                   </p>
                 </div>
 
-                {/* Hover Border */}
                 <div className="absolute inset-0 rounded-3xl border border-gray-800 group-hover:border-gray-700/50 transition-colors duration-300" />
               </div>
-            </motion.div>
+            </MotionDiv>
           ))}
         </div>
       </div>

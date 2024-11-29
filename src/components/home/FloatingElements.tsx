@@ -1,12 +1,13 @@
 "use client"
 
-import { motion, MotionValue, useTransform } from "motion/react"
+import { MotionValue, useTransform } from "motion/react"
+import MotionDiv from "@/components/animations/MotionDiv"
 
 interface FloatingElementsProps {
   scrollProgress: MotionValue<number>
 }
 
-export function FloatingElements({ scrollProgress }: FloatingElementsProps) {
+export default function FloatingElements({ scrollProgress }: FloatingElementsProps) {
   const rightElementX = useTransform(scrollProgress, [0, 1], ["0%", "100%"])
   const leftElementX = useTransform(scrollProgress, [0, 1], ["0%", "-100%"])
   const scale = useTransform(scrollProgress, [0, 0.5], [1, 2])
@@ -14,7 +15,7 @@ export function FloatingElements({ scrollProgress }: FloatingElementsProps) {
 
   return (
     <>
-      <motion.div
+      <MotionDiv
         style={{ 
           x: rightElementX,
           scale,
@@ -33,7 +34,7 @@ export function FloatingElements({ scrollProgress }: FloatingElementsProps) {
         }}
         className="fixed top-1/4 right-10 w-20 h-20 bg-primary-500/20 rounded-full blur-xl"
       />
-      <motion.div
+      <MotionDiv
         style={{ 
           x: leftElementX,
           scale,
@@ -52,8 +53,7 @@ export function FloatingElements({ scrollProgress }: FloatingElementsProps) {
         }}
         className="fixed bottom-1/4 left-10 w-32 h-32 bg-secondary-400/20 rounded-full blur-xl"
       />
-      {/* Additional floating elements */}
-      <motion.div
+      <MotionDiv
         style={{ 
           scale,
           opacity
@@ -69,7 +69,7 @@ export function FloatingElements({ scrollProgress }: FloatingElementsProps) {
         }}
         className="fixed top-1/3 left-1/4 w-24 h-24 bg-primary-400/10 rounded-full blur-xl"
       />
-      <motion.div
+      <MotionDiv
         style={{ 
           scale,
           opacity

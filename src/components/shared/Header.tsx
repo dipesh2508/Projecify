@@ -1,29 +1,14 @@
-"use client"
-
-import { motion } from "motion/react"
+import MotionHeader from "@/components/animations/MotionHeader"
+import MotionDiv from '@/components/animations/MotionDiv'
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import logo from '@/assets/projecify full logo.png'
 
-const navLinks = [
-  { href: "#features", label: "Features" },
-  { href: "#how-it-works", label: "How It Works" },
-  { href: "#stats", label: "Stats" },
-  { href: "#testimonials", label: "Testimonials" },
-]
-
-export function Header() {
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault()
-    const element = document.querySelector(href)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
-    }
-  }
+const Header = () => {
 
   return (
-    <motion.header
+    <MotionHeader
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className="fixed top-0 left-0 right-0 z-50 bg-white/20 backdrop-blur-md border-b border-white/30"
@@ -47,7 +32,7 @@ export function Header() {
             >
               Login
             </Link>
-            <motion.div
+            <MotionDiv
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -58,10 +43,12 @@ export function Header() {
                   Get Started
                 </Button>
               </Link>
-            </motion.div>
+            </MotionDiv>
           </div>
         </div>
       </div>
-    </motion.header>
+    </MotionHeader>
   )
 }
+
+export default Header;
