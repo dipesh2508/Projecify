@@ -90,7 +90,7 @@ const About = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/90 to-black z-[1]" />
 
         <div className="container relative z-[2] mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 items-center">
             <MotionDiv
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
