@@ -18,7 +18,7 @@ export const authOptions: NextAuthOptions = {
             name: profile.name,
             email: profile.email,
             image: profile.picture,
-            emailVerified: profile.email_verified ? new Date() : null,
+            emailVerified: profile.email_verified ? false : null,
           }
         },
       }),
@@ -75,14 +75,14 @@ export const authOptions: NextAuthOptions = {
       async session({ session, token }) {
         if (token && session.user) {
           session.user.id = token.sub!
-          session.user.emailVerified = token.emailVerified as Date | null
+          session.user.emailVerified = token.emailVerified as boolean | null
         }
         return session
       },
       async jwt({ token, user, account }) {
         if (user) {
           token.sub = user.id
-          token.emailVerified = user.emailVerified
+          token.emailVerified = user.emailVerified ? true : null
         }
         if (account) {
           await prisma.account.upsert({
