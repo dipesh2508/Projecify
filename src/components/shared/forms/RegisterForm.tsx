@@ -91,9 +91,8 @@ export default function RegisterForm() {
       <Button
         variant="outline"
         className="w-full bg-white/5 hover:bg-white/10 border-gray-700 text-gray-200"
-        onClick={() => {
-          /* Add Google sign-in logic */
-        }}
+        onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+        disabled={isLoading}
       >
         <FcGoogle className="mr-2 h-5 w-5" />
         Continue with Google
