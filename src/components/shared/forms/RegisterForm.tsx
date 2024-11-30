@@ -1,29 +1,33 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { useToast } from "@/hooks/use-toast"
-import { FcGoogle } from "react-icons/fc"
-import { Eye, EyeOff } from "lucide-react"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
+import { FcGoogle } from "react-icons/fc";
+import { Eye, EyeOff } from "lucide-react";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@/components/ui/form"
-import { registerSchema, type RegisterInput } from "@/lib/validations/auth"
+} from "@/components/ui/form";
+import {
+  registerSchema,
+  type RegisterInput,
+} from "@/lib/validations/auth.validations";
+import { signIn } from "next-auth/react";
 
 export default function RegisterForm() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  const router = useRouter()
-  const { toast } = useToast()
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+  const { toast } = useToast();
 
   const form = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
@@ -32,37 +36,64 @@ export default function RegisterForm() {
       email: "",
       password: "",
     },
-  })
+  });
 
   async function onSubmit(data: RegisterInput) {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
-      // Add registration logic here
-      console.log(data)
+      // In RegisterForm.tsx onSubmit:
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const error = await response.text();
+        toast({
+          title: "Error",
+          description: error,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const result = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
+
+      console.log(result);
+      router.push("/login");
       toast({
         title: "Success",
         description: "Account created successfully",
-      })
-      router.push("/login")
+      });
+      router.push("/dashboard");
     } catch (error) {
       toast({
         title: "Error",
         description: "Something went wrong",
         variant: "destructive",
-      })
-      console.error(error)
+      });
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
   return (
     <div className="space-y-6">
-      <Button 
-        variant="outline" 
+      <Button
+        variant="outline"
         className="w-full bg-white/5 hover:bg-white/10 border-gray-700 text-gray-200"
-        onClick={() => {/* Add Google sign-in logic */}}
+        onClick={() => {
+          /* Add Google sign-in logic */
+        }}
       >
         <FcGoogle className="mr-2 h-5 w-5" />
         Continue with Google
@@ -158,10 +189,13 @@ export default function RegisterForm() {
 
       <p className="text-center text-sm text-gray-400">
         Already have an account?{" "}
-        <Link href="/login" className="text-primary-400 hover:text-primary-300 font-medium">
+        <Link
+          href="/login"
+          className="text-primary-400 hover:text-primary-300 font-medium"
+        >
           Sign in
         </Link>
       </p>
     </div>
-  )
+  );
 }

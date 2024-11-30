@@ -1,11 +1,28 @@
-import MotionDiv from "@/components/animations/MotionDiv"
-import MotionP from "@/components/animations/MotionP"
-import MotionH1 from "@/components/animations/MotionH1"
+"use client"
+
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { useAuth } from "@/hooks/use-auth"
 import RegisterForm from "@/components/shared/forms/RegisterForm"
+import MotionDiv from "@/components/animations/MotionDiv"
+import MotionH1 from "@/components/animations/MotionH1"
+import MotionP from "@/components/animations/MotionP"
 import { AuthPageWrapper } from "@/components/wrappers/AuthPageWrappers"
 
-
 export default function RegisterPage() {
+  const { isAuthenticated, isLoading } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      router.push("/dashboard")
+    }
+  }, [isAuthenticated, isLoading, router])
+
+  if (isLoading) {
+    return <p>Loading...</p>
+  }
+
   return (
     <main className="relative min-h-screen bg-black">
       {/* Animated grid background */}

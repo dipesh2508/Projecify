@@ -17,7 +17,8 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form"
-import { loginSchema, type LoginInput } from "@/lib/validations/auth"
+import { loginSchema, type LoginInput } from "@/lib/validations/auth.validations"
+import { signIn } from "next-auth/react"
 
 export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -37,12 +38,21 @@ export default function LoginForm() {
     setIsLoading(true)
 
     try {
-      // Add login logic here
-      console.log(data)
-      toast({
-        title: "Success",
-        description: "Logged in successfully",
+      const result = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false,
       })
+
+      if (result?.error) {
+        toast({
+          title: "Error",
+          description: "Invalid credentials",
+          variant: "destructive",
+        })
+        return
+      }
+
       router.push("/dashboard")
     } catch (error) {
       toast({

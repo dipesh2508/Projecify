@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     "A Next.js application to manage all your projects and collaborate with your team.",
 };
 
-export default function PublicLayout({
+export default function VerifiedLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
