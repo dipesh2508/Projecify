@@ -3,35 +3,54 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
 import { FcGoogle } from "react-icons/fc"
+import { Eye, EyeOff } from "lucide-react"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form"
+import { registerSchema, type RegisterInput } from "@/lib/validations/auth"
 
 export default function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
   const { toast } = useToast()
 
-  async function onSubmit(event: React.FormEvent) {
-    event.preventDefault()
+  const form = useForm<RegisterInput>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+  })
+
+  async function onSubmit(data: RegisterInput) {
     setIsLoading(true)
 
     try {
       // Add registration logic here
+      console.log(data)
       toast({
         title: "Success",
         description: "Account created successfully",
       })
       router.push("/login")
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        toast({
-          title: "Error",
-          description: error.message || "Something went wrong. Please try again.",
-          variant: "destructive",
-        })
-      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong",
+        variant: "destructive",
+      })
       console.error(error)
     } finally {
       setIsLoading(false)
@@ -58,34 +77,84 @@ export default function RegisterForm() {
         </div>
       </div>
 
-      <form onSubmit={onSubmit} className="space-y-4">
-        <Input
-          type="text"
-          placeholder="Full Name"
-          disabled={isLoading}
-          className="bg-white/5 border-gray-700 focus-visible:ring-primary-500 text-gray-200"
-        />
-        <Input
-          type="email"
-          placeholder="Email"
-          disabled={isLoading}
-          className="bg-white/5 border-gray-700 focus-visible:ring-primary-500 text-gray-200"
-        />
-        <Input
-          type="password"
-          placeholder="Password"
-          disabled={isLoading}
-          className="bg-white/5 border-gray-700 focus-visible:ring-primary-500 text-gray-200"
-        />
-        
-        <Button 
-          type="submit" 
-          className="w-full bg-gradient-to-r from-primary-500 to-secondary-500 hover:from-primary-600 hover:to-secondary-600 text-white"
-          disabled={isLoading}
-        >
-          {isLoading ? "Creating account..." : "Create account"}
-        </Button>
-      </form>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    placeholder="Full Name"
+                    {...field}
+                    disabled={isLoading}
+                    className="bg-white/5 border-gray-700 focus-visible:ring-primary-500 text-gray-200"
+                  />
+                </FormControl>
+                <FormMessage className="text-red-500" />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    placeholder="Email"
+                    {...field}
+                    type="email"
+                    disabled={isLoading}
+                    className="bg-white/5 border-gray-700 focus-visible:ring-primary-500 text-gray-200"
+                  />
+                </FormControl>
+                <FormMessage className="text-red-500" />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="relative">
+                    <Input
+                      {...field}
+                      placeholder="Password"
+                      type={showPassword ? "text" : "password"}
+                      disabled={isLoading}
+                      className="bg-white/5 border-gray-700 focus-visible:ring-primary-500 text-gray-200 pr-10"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-300"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                </FormControl>
+                <FormMessage className="text-red-500" />
+              </FormItem>
+            )}
+          />
+
+          <Button
+            type="submit"
+            className="w-full bg-gradient-to-r from-primary-500 to-secondary-500 hover:from-primary-600 hover:to-secondary-600 text-white"
+            disabled={isLoading}
+          >
+            {isLoading ? "Creating account..." : "Create account"}
+          </Button>
+        </form>
+      </Form>
 
       <p className="text-center text-sm text-gray-400">
         Already have an account?{" "}
