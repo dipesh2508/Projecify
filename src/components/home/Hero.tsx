@@ -82,7 +82,7 @@ export default function Hero({ scrollProgress }: HeroProps) {
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-xl blur-lg opacity-50 group-hover:opacity-75 transition-opacity duration-300" />
                 <Button 
-                  className="relative bg-gradient-to-r from-primary-500 to-secondary-500 hover:from-primary-600 hover:to-secondary-600 text-white px-8 py-6 rounded-xl text-lg font-medium flex items-center gap-2"
+                  className="relative bg-gradient-to-r from-primary-500 to-secondary-500 hover:from-primary-600 hover:to-secondary-600 text-white px-8 py-6 rounded-xl text-lg font-medium flex items-center gap-2 dark:text-white"
                 >
                   Get Started
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
@@ -93,7 +93,7 @@ export default function Hero({ scrollProgress }: HeroProps) {
             <Link href="#features">
               <Button 
                 variant="ghost"
-                className="text-white hover:text-primary-400 px-8 py-6 text-lg font-medium transition-colors duration-300"
+                className="text-white hover:text-primary-400 px-8 py-6 text-lg font-medium transition-colors duration-300 dark:hover:bg-primary-50 dark:hover:text-primary-600"
               >
                 Learn More
               </Button>

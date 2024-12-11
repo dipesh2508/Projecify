@@ -8,6 +8,7 @@ import MotionDiv from "@/components/animations/MotionDiv"
 import MotionH1 from "@/components/animations/MotionH1"
 import MotionP from "@/components/animations/MotionP"
 import { AuthPageWrapper } from "@/components/wrappers/AuthPageWrappers"
+import Loader from "@/components/shared/Loader"
 
 export default function RegisterPage() {
   const { isAuthenticated, isLoading } = useAuth()
@@ -20,7 +21,7 @@ export default function RegisterPage() {
   }, [isAuthenticated, isLoading, router])
 
   if (isLoading) {
-    return <p>Loading...</p>
+    return <Loader />
   }
 
   return (
