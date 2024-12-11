@@ -25,6 +25,13 @@ export default function DashboardPage() {
     data: projects = [], 
     isLoading,
   } = useApi<Project[]>('/api/projects', {
+    onSuccess: (data) => {
+      toast({
+        title: "Projects loaded successfully",
+        description: `${data?.length || 0} projects found`,
+        className: "bg-green-100 dark:bg-slate-950 border-green-600 dark:border-green-800",
+      })
+    },
     onError: (error) => {
       toast({
         variant: "destructive",

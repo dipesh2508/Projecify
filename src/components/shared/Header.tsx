@@ -38,7 +38,7 @@ const Header = () => {
             >
               <Link href="/register">
                 <Button 
-                  className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:shadow-lg hover:shadow-primary-500/20"
+                  className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:shadow-lg hover:shadow-primary-500/20 dark:bg-primary-500 dark:hover:bg-primary-600 dark:text-white"
                 >
                   Get Started
                 </Button>
