@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { PlusCircle, Clock, AlertCircle } from "lucide-react"
 import Image from "next/image"
+import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton"
 
 type Task = {
   id: string
@@ -57,7 +58,7 @@ export default function DashboardPage() {
   })
 
   if(isLoading || !projects){
-    return <Loader />
+    return <DashboardSkeleton />
   }
 
   // Calculate statistics with proper checks
