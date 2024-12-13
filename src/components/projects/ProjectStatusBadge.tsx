@@ -9,14 +9,15 @@ const statusConfig = {
 } as const
 
 interface ProjectStatusBadgeProps {
-  status: ProjectStatus
+  status: ProjectStatus;
+  className?: string;
 }
 
-export function ProjectStatusBadge({ status }: ProjectStatusBadgeProps) {
+export function ProjectStatusBadge({ status, className }: ProjectStatusBadgeProps) {
   const config = statusConfig[status]
   
   return (
-    <Badge variant={config.variant as any}>
+    <Badge variant={config.variant as any} className={className}>
       {config.label}
     </Badge>
   )

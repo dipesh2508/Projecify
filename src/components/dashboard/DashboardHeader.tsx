@@ -5,9 +5,19 @@ import { usePathname } from "next/navigation"
 
 export default function DashboardHeader() {
   const pathname = usePathname()
-  const title = pathname === "/dashboard" 
-    ? "Dashboard" 
-    : pathname.split("/").pop()?.replace(/-/g, " ").replace(/^\w/, c => c.toUpperCase())
+  
+  const getTitle = () => {
+    if (pathname === "/dashboard") return "Dashboard";
+    if (pathname.match(/\/dashboard\/projects\/[^/]+$/)) return "Project Details";
+    
+    return pathname
+      .split("/")
+      .pop()
+      ?.replace(/-/g, " ")
+      .replace(/^\w/, c => c.toUpperCase());
+  };
+
+  const title = getTitle();
 
   return (
     <header className="sticky top-0 z-40 border-b border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-black/50 backdrop-blur-xl">

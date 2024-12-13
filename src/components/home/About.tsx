@@ -123,7 +123,7 @@ const About = () => {
               <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-br from-[#0088ff]/10 to-transparent rounded-full blur-3xl" />
 
               <div className="relative z-10">
-                <H2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                <H2 className="text-2xl md:text-5xl font-bold text-white mb-6 leading-tight">
                   The Project is Made under the
                   <span className="block mt-4 text-transparent bg-clip-text bg-gradient-to-r from-[#00ffff] to-[#0088ff]">
                     Organisation Try N&apos; Test
@@ -138,7 +138,7 @@ const About = () => {
                   className="relative"
                 >
                   <div className="h-px w-24 bg-gradient-to-r from-[#00ffff] to-[#0088ff] mb-6 mx-auto lg:mx-0" />
-                  <MotionP className="text-2xl font-semibold italic text-gray-300 mb-8">
+                  <MotionP className="text-xl md:text-2xl font-semibold italic text-gray-300 mb-8">
                     Exploring, Innovating, Perfecting
                   </MotionP>
                 </MotionDiv>
