@@ -2,36 +2,51 @@
 
 import { useApi } from "@/hooks/useApi"
 import { Card } from "@/components/ui/card"
-import { ProjectStatus } from "@prisma/client"
+import { ProjectStatus, TaskStatus, Priority } from "@prisma/client"
 import MotionDiv from "@/components/animations/MotionDiv"
 import { useToast } from "@/hooks/use-toast"
 import Loader from "@/components/shared/Loader"
+import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
+import { PlusCircle, Clock, AlertCircle } from "lucide-react"
+import Image from "next/image"
+import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton"
+
+type Task = {
+  id: string
+  title: string
+  status: TaskStatus
+  priority: Priority
+  dueDate: Date | null
+}
 
 type Project = {
   id: string
-  title: string
-  description: string
+  name: string
+  description: string | null
   status: ProjectStatus
   createdAt: Date
   updatedAt: Date
-  userId: string
-  teamId: string | null
+  dueDate: Date | null
+  tasks: Task[]
+  members: {
+    user: {
+      id: string
+      name: string | null
+      image: string | null
+    }
+    role: string
+  }[]
 }
 
 export default function DashboardPage() {
+  const router = useRouter()
   const { toast } = useToast()
   
   const { 
     data: projects = [], 
     isLoading,
   } = useApi<Project[]>('/api/projects', {
-    onSuccess: (data) => {
-      toast({
-        title: "Projects loaded successfully",
-        description: `${data?.length || 0} projects found`,
-        className: "bg-green-100 dark:bg-slate-950 border-green-600 dark:border-green-800",
-      })
-    },
     onError: (error) => {
       toast({
         variant: "destructive",
@@ -43,8 +58,25 @@ export default function DashboardPage() {
   })
 
   if(isLoading || !projects){
-    return <Loader />
+    return <DashboardSkeleton />
   }
+
+  // Calculate statistics with proper checks
+  const urgentTasks = projects
+    .flatMap(p => p.tasks || [])
+    .filter(t => t?.priority === Priority.URGENT)
+    .length
+
+  const upcomingDeadlines = projects.filter(p => {
+    if (!p?.dueDate) return false
+    const dueDate = new Date(p.dueDate)
+    if (!(dueDate instanceof Date && !isNaN(dueDate.getTime()))) return false
+    
+    const daysUntilDue = Math.ceil(
+      (dueDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
+    )
+    return daysUntilDue <= 7 && daysUntilDue > 0
+  }).length
 
   return (
     <MotionDiv 
@@ -53,7 +85,9 @@ export default function DashboardPage() {
       transition={{ duration: 0.5 }}
       className="space-y-8"
     >
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+
+      {/* Project Statistics */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mt-8">
         <ProjectStatusCard
           title="Active Projects"
           value={projects.filter(p => p.status === ProjectStatus.IN_PROGRESS).length}
@@ -70,10 +104,76 @@ export default function DashboardPage() {
           gradient="from-yellow-600 to-orange-600"
         />
         <ProjectStatusCard
-          title="Total Projects"
-          value={projects.length}
-          gradient="from-primary-600 to-secondary-600"
+          title="Not Started"
+          value={projects.filter(p => p.status === ProjectStatus.NOT_STARTED).length}
+          gradient="from-gray-600 to-slate-600"
         />
+      </div>
+
+      {/* Alerts and Deadlines */}
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card className="p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <AlertCircle className="h-5 w-5 text-red-500" />
+            <h2 className="text-lg font-semibold">Urgent Tasks</h2>
+          </div>
+          <p className="text-3xl font-bold">{urgentTasks}</p>
+          <p className="text-sm text-gray-500 mt-2">Tasks marked as urgent across all projects</p>
+        </Card>
+        <Card className="p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <Clock className="h-5 w-5 text-yellow-500" />
+            <h2 className="text-lg font-semibold">Upcoming Deadlines</h2>
+          </div>
+          <p className="text-3xl font-bold">{upcomingDeadlines}</p>
+          <p className="text-sm text-gray-500 mt-2">Projects due within the next 7 days</p>
+        </Card>
+      </div>
+
+      {/* Recent Projects */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold">Recent Projects</h2>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {projects
+            .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+            .slice(0, 3)
+            .map(project => (
+              <Card 
+                key={project.id} 
+                className="p-6 cursor-pointer hover:shadow-lg transition-shadow"
+                onClick={() => router.push(`/dashboard/projects/${project.id}`)}
+              >
+                <h3 className="font-semibold mb-2">{project.name}</h3>
+                <p className="text-sm text-gray-500 mb-4 line-clamp-2">
+                  {project.description || 'No description'}
+                </p>
+                <div className="flex justify-between items-center">
+                  <div className="flex -space-x-2">
+                    {project.members?.slice(0, 3).map(member => (
+                      <Image
+                        key={member.user.id}
+                        src={member.user.image || '/placeholder-avatar.png'}
+                        alt={member.user.name || 'Team member'}
+                        className="w-8 h-8 rounded-full border-2 border-white"
+                        width={40}
+                        height={40}
+                      />
+                    ))}
+                    {(project.members?.length || 0) > 3 && (
+                      <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-sm">
+                        +{(project.members?.length || 0) - 3}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-gray-500">
+                      {project.tasks?.length || 0} tasks
+                    </span>
+                  </div>
+                </div>
+              </Card>
+            ))}
+        </div>
       </div>
     </MotionDiv>
   )
@@ -94,7 +194,7 @@ function ProjectStatusCard({
       <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-0 group-hover:opacity-5 dark:group-hover:opacity-10 transition-opacity duration-500`} />
       <div className="relative p-6 flex flex-col">
         <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">{title}</h3>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white mt-2">{value}</p>
+        <p className="text-2xl font-bold text-gray-900 dark:text-white mt-2">{value}</p>
       </div>
     </Card>
   )

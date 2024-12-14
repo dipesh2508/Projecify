@@ -84,6 +84,12 @@ export async function POST(req: Request) {
         status: status || "IN_PROGRESS",
         dueDate: dueDate ? new Date(dueDate) : null,
         ownerId: session.user.id,
+        members: {
+          create: {
+            userId: session.user.id,
+            role: "OWNER"
+          }
+        }
       },
       include: {
         owner: {
@@ -92,6 +98,23 @@ export async function POST(req: Request) {
             name: true,
             email: true,
             image: true,
+          }
+        },
+        members: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                image: true,
+              }
+            }
+          }
+        },
+        _count: {
+          select: {
+            tasks: true
           }
         }
       }
