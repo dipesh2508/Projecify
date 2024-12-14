@@ -74,8 +74,8 @@ export async function GET(
   }
 }
 
-// PATCH - Update a project
-export async function PATCH(
+// PUT - Update a project
+export async function PUT(
   req: Request,
   { params }: { params: { projectId: string } }
 ) {
@@ -123,11 +123,33 @@ export async function PATCH(
         status,
         dueDate: dueDate ? new Date(dueDate) : null,
       },
+      include: {
+        owner: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+          }
+        },
+        members: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                image: true,
+              }
+            }
+          }
+        }
+      }
     })
 
     return NextResponse.json(updatedProject)
   } catch (error) {
-    console.error("[PROJECT_PATCH]", error)
+    console.error("[PROJECT_PUT]", error)
     return new NextResponse("Internal Error", { status: 500 })
   }
 }
