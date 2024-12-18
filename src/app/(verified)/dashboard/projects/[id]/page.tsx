@@ -80,8 +80,6 @@ type Project = {
   members: { id: string; name: string }[];
 };
 
-// ... Task and Project types remain the same ...
-
 export default function ProjectPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const { toast } = useToast();
@@ -170,15 +168,23 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
                 </span>
               </div>
             </div>
-            <Button
-              onClick={() =>
-                router.push(`/dashboard/projects/${project.id}/tasks/new`)
-              }
-              className="flex items-center gap-2"
-            >
-              <PlusCircle className="h-5 w-5" />
-              Add Task
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                onClick={() => router.push(`/dashboard/team?projectId=${project.id}`)}
+                className="flex items-center gap-2"
+              >
+                  <Users className="h-5 w-5" />
+                Manage Team
+              </Button>
+              <Button
+                onClick={() => router.push(`/dashboard/projects/${project.id}/tasks/new`)}
+                className="flex items-center gap-2"
+              >
+                  <PlusCircle className="h-5 w-5" />
+                  Add Task
+              </Button>
+           </div>
           </div>
         </div>
       </Card>
