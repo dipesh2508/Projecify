@@ -256,7 +256,7 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
                           )}
                         </div>
 
-                        <div className="flex items-start gap-2">
+                        <div className="flex flex-col items-end gap-2">
                           <Badge
                             variant={
                               task.priority === Priority.URGENT
