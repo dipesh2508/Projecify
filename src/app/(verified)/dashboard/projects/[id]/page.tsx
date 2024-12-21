@@ -241,7 +241,7 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
                       <div className="flex justify-between items-start gap-2">
                         <div
                           onClick={() =>
-                            router.push(`/dashboard/tasks/${task.id}`)
+                            router.push(`/dashboard/projects/${params.id}/tasks/${task.id}`)
                           }
                           className="flex-1 cursor-pointer"
                         >

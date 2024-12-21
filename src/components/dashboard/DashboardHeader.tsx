@@ -9,6 +9,7 @@ export default function DashboardHeader() {
   const getTitle = () => {
     if (pathname === "/dashboard") return "Dashboard";
     if (pathname.match(/\/dashboard\/projects\/[^/]+$/)) return "Project Details";
+    if (pathname.match(/\/dashboard\/projects\/[^/]+\/tasks\/[^/]+$/)) return "Task Details";
     
     return pathname
       .split("/")
