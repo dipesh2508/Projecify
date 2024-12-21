@@ -28,6 +28,7 @@ import * as z from "zod"
 import MotionDiv from "@/components/animations/MotionDiv"
 import { useState } from "react"
 import { LoadingButton } from "@/components/shared/LoadingButton"
+import { Project } from "@/types"
 
 const formSchema = z.object({
   name: z.string().min(1, "Project name is required"),
@@ -51,7 +52,7 @@ export default function NewProjectPage() {
     },
   })
 
-  const { mutate, isLoading } = useApi('/api/projects', {
+  const { mutate, isLoading } = useApi<Project>('/api/projects', {
     method: 'POST',
     enabled: false,
     onSuccess: () => {

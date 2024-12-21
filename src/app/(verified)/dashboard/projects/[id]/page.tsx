@@ -31,6 +31,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ProjectPageSkeleton } from "@/components/projects/ProjectPageSkeleton";
+import { Project, Task } from "@/types";
 
 const statusConfig = {
   TODO: {
@@ -59,26 +60,7 @@ const statusConfig = {
   },
 };
 
-type Task = {
-  id: string;
-  title: string;
-  description: string | null;
-  status: TaskStatus;
-  priority: Priority;
-  dueDate: Date | null;
-};
 
-type Project = {
-  id: string;
-  name: string;
-  description: string | null;
-  status: ProjectStatus;
-  createdAt: Date;
-  updatedAt: Date;
-  dueDate: Date | null;
-  tasks: Task[];
-  members: { id: string; name: string }[];
-};
 
 export default function ProjectPage({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -285,7 +267,7 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
                               <DropdownMenuItem
                                 onClick={() =>
                                   router.push(
-                                    `/dashboard/tasks/${task.id}/edit`
+                                    `/dashboard/projects/${params.id}/tasks/${task.id}/edit`
                                   )
                                 }
                               >
