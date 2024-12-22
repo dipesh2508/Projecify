@@ -46,6 +46,18 @@ export async function GET() {
             }
           }
         },
+        tasks: {
+          include: {
+            assignedTo: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                image: true,
+              }
+            }
+          }
+        },
         _count: {
           select: {
             tasks: true

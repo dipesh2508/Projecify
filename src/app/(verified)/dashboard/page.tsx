@@ -61,11 +61,9 @@ export default function DashboardPage() {
     return <DashboardSkeleton />
   }
 
+  console.log(projects)
   // Calculate statistics with proper checks
-  const urgentTasks = projects
-    .flatMap(p => p.tasks || [])
-    .filter(t => t?.priority === Priority.URGENT)
-    .length
+  const urgentTasks = projects.flatMap(p => p.tasks || []).filter(t => t?.priority === Priority.URGENT).length
 
   const upcomingDeadlines = projects.filter(p => {
     if (!p?.dueDate) return false

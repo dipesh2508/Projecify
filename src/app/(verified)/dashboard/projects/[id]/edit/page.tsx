@@ -29,6 +29,8 @@ import MotionDiv from "@/components/animations/MotionDiv"
 import { useState, useEffect } from "react"
 import { LoadingButton } from "@/components/shared/LoadingButton"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Dialog, DialogFooter, DialogDescription, DialogTitle, DialogContent } from "@/components/ui/dialog"
+import { DialogTrigger } from "@/components/ui/dialog"
 
 const formSchema = z.object({
   name: z.string().min(1, "Project name is required"),
@@ -64,6 +66,7 @@ export default function EditProjectPage({ params }: { params: { id: string }}) {
   const router = useRouter()
   const { toast } = useToast()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -120,7 +123,30 @@ const { mutate, isLoading } = useApi(`/api/projects/${params.id}`, {
       setIsSubmitting(false)
     }
   })
-  
+
+  const { mutate: deleteProject, isLoading:isDeleting } = useApi(
+    `/api/projects/${params.id}`,
+    {
+      method: "DELETE",
+      enabled: false,
+      onSuccess: () => {
+        toast({
+          title: "Deleted",
+          description: "Project deleted successfully",
+          className: "bg-red-100 dark:bg-slate-950 border-red-600 dark:border-red-800",
+        });
+        setIsSubmitting(false);
+        router.push(`/dashboard/projects`);
+      },
+      onError: (error) => {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: error.message,
+        });
+        setIsSubmitting(false);
+      },
+    });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     if (isSubmitting) return
@@ -132,6 +158,11 @@ const { mutate, isLoading } = useApi(`/api/projects/${params.id}`, {
       setIsSubmitting(false)
     }
   }
+
+  const handleDelete = () => {
+    deleteProject();
+    setIsDialogOpen(false);
+  };
 
   // Replace the loading spinner with this skeleton
   if (isLoadingProject) {
@@ -274,6 +305,26 @@ return (
             />
   
             <div className="flex justify-end gap-4">
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+  <DialogTrigger asChild>
+    <Button variant="destructive" onClick={() => setIsDialogOpen(true)}>
+      Delete Project
+    </Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogTitle>Confirm Deletion</DialogTitle>
+    <DialogDescription>
+      Are you sure you want to delete this project? This action cannot be undone.
+    </DialogDescription>
+    <DialogFooter>
+      <Button variant="outline">  Cancel
+     </Button>
+     <Button onClick={handleDelete} disabled={isDeleting} variant={"destructive"}>
+       Confirm Delete
+     </Button>
+   </DialogFooter>
+ </DialogContent>
+</Dialog>
               <Button
                 type="button"
                 variant="outline"
