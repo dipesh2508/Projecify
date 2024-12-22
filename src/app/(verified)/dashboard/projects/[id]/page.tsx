@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useApi } from "@/hooks/useApi";
 import { useToast } from "@/hooks/use-toast";
@@ -32,6 +32,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ProjectPageSkeleton } from "@/components/projects/ProjectPageSkeleton";
 import { Project, Task } from "@/types";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const statusConfig = {
   TODO: {
@@ -60,12 +69,11 @@ const statusConfig = {
   },
 };
 
-
-
 export default function ProjectPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const { toast } = useToast();
-
+  const [taskId, setTaskId] = useState("");
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const {
     data: project,
     error,
@@ -82,6 +90,34 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
     },
   });
 
+  const { mutate: deleteTask, isLoading: isDeleting } = useApi(
+    `/api/projects/${params.id}/tasks/${taskId}`,
+    {
+      method: "DELETE",
+      enabled: false,
+      onSuccess: () => {
+        toast({
+          title: "Deleted",
+          description: "Task deleted successfully",
+          className:
+            "bg-red-100 dark:bg-slate-950 border-red-600 dark:border-red-800",
+        });
+        setShowDeleteDialog(false);
+        router.refresh();
+        setTimeout(() => {
+          window.location.reload();
+        }, 100);
+      },
+      onError: (error) => {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: error.message,
+        });
+      },
+    }
+  );
+
   useEffect(() => {
     if (error) {
       router.push("/dashboard/projects");
@@ -91,6 +127,10 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
   if (isLoading || !project) {
     return <ProjectPageSkeleton />;
   }
+
+  const handleDelete = () => {
+    deleteTask();
+  };
 
   return (
     <MotionDiv
@@ -153,20 +193,24 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
             <div className="flex items-center gap-2">
               <Button
                 variant="outline"
-                onClick={() => router.push(`/dashboard/team?projectId=${project.id}`)}
+                onClick={() =>
+                  router.push(`/dashboard/team?projectId=${project.id}`)
+                }
                 className="flex items-center gap-2"
               >
-                  <Users className="h-5 w-5" />
+                <Users className="h-5 w-5" />
                 Manage Team
               </Button>
               <Button
-                onClick={() => router.push(`/dashboard/projects/${project.id}/tasks/new`)}
+                onClick={() =>
+                  router.push(`/dashboard/projects/${project.id}/tasks/new`)
+                }
                 className="flex items-center gap-2"
               >
-                  <PlusCircle className="h-5 w-5" />
-                  Add Task
+                <PlusCircle className="h-5 w-5" />
+                Add Task
               </Button>
-           </div>
+            </div>
           </div>
         </div>
       </Card>
@@ -223,7 +267,9 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
                       <div className="flex justify-between items-start gap-2">
                         <div
                           onClick={() =>
-                            router.push(`/dashboard/projects/${params.id}/tasks/${task.id}`)
+                            router.push(
+                              `/dashboard/projects/${params.id}/tasks/${task.id}`
+                            )
                           }
                           className="flex-1 cursor-pointer"
                         >
@@ -274,10 +320,48 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
                                 <Edit className="h-4 w-4 mr-2" />
                                 Edit
                               </DropdownMenuItem>
-                              <DropdownMenuItem className="text-red-600">
-                                <Trash2 className="h-4 w-4 mr-2" />
-                                Delete
-                              </DropdownMenuItem>
+                              <Dialog
+                                open={showDeleteDialog}
+                                onOpenChange={setShowDeleteDialog}
+                              >
+                                <DialogTrigger asChild>
+                                  <DropdownMenuItem
+                                    className="text-red-600"
+                                    onSelect={(e) => {
+                                      e.preventDefault();
+                                      setTaskId(task.id);
+                                    }}
+                                  >
+                                    <Trash2 className="h-4 w-4 mr-2" />
+                                    Delete
+                                  </DropdownMenuItem>
+                                </DialogTrigger>
+                                <DialogContent>
+                                  <DialogHeader>
+                                    <DialogTitle>Are you sure?</DialogTitle>
+                                    <DialogDescription>
+                                      This action cannot be undone. This will
+                                      permanently delete the task.
+                                    </DialogDescription>
+                                  </DialogHeader>
+                                  <DialogFooter>
+                                    <Button
+                                      variant="outline"
+                                      onClick={() => setShowDeleteDialog(false)}
+                                      disabled={isDeleting}
+                                    >
+                                      Cancel
+                                    </Button>
+                                    <Button
+                                      variant="destructive"
+                                      onClick={handleDelete}
+                                      disabled={isDeleting}
+                                    >
+                                      {isDeleting ? "Deleting..." : "Delete"}
+                                    </Button>
+                                  </DialogFooter>
+                                </DialogContent>
+                              </Dialog>
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </div>

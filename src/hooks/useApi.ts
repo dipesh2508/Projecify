@@ -50,7 +50,7 @@ export function useApi<T>(
         throw new Error(await response.text())
       }
 
-      const result = await response.json()
+      const result = response.status !== 204 ? await response.json() : null;
       setData(result)
       onSuccess?.(result)
       return result
