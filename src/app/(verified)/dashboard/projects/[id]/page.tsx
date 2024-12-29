@@ -221,25 +221,26 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
           Project Progress
         </h3>
         <Progress
-          value={
-            (project.tasks.filter((t) => t.status === "COMPLETED").length /
-              project.tasks.length) *
-            100
-          }
+          value={(() => {
+            const totalTasks = project.tasks?.length || 0;
+            const completedTasks =
+              project.tasks?.filter((t) => t.status === "COMPLETED").length ||
+              0;
+            return totalTasks ? (completedTasks / totalTasks) * 100 : 0;
+          })()}
           className="h-2"
         />
         <div className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-          {project.tasks.filter((t) => t.status === "COMPLETED").length} of{" "}
-          {project.tasks.length} tasks completed
+          {project.tasks?.filter((t) => t.status === "COMPLETED").length} of{" "}
+          {project.tasks?.length} tasks completed
         </div>
       </Card>
 
       {/* Task Progress */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {Object.values(TaskStatus).map((status) => {
-          const tasksInStatus = project.tasks.filter(
-            (t) => t.status === status
-          );
+          const tasksInStatus =
+            project.tasks?.filter((t) => t.status === status) || [];
           return (
             <Card key={status} className="relative group overflow-hidden">
               <div className="absolute inset-0 bg-white/50 dark:bg-gray-900/50 backdrop-blur-xl" />

@@ -22,7 +22,6 @@ export type ProjectMembership = {
   role: ProjectRole;
 };
 
-// You might already have these types, but if not, here they are for reference:
 export type Project = {
   id: string;
   name: string;
@@ -49,4 +48,14 @@ export type Task = {
   projectId: string;
   assignedToId: string | null;
   assignedTo?: User;
+};
+
+export type ProjectMember = {
+  user: {
+    id: string;
+    name: string | null;
+    email: string;
+    image: string | null;
+  };
+  role: string;
 };
