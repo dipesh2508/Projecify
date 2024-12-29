@@ -245,7 +245,7 @@ export default function TeamMembers({
                                         <Button
                                             variant="ghost"
                                             size="sm"
-                                            className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                                            className="h-8 w-8 p-0 group-hover:opacity-100 transition-opacity duration-200"
                                             disabled={loadingMemberId === member.userId}
                                         >
                                             {loadingMemberId === member.userId ? (

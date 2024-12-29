@@ -1,13 +1,40 @@
-import { TaskStatus, Priority, ProjectStatus } from "@prisma/client";
+import { ProjectStatus, ProjectRole, TaskStatus, Priority } from "@prisma/client";
 
-export type ProjectMember = {
-  user: {
+export type User = {
+  id: string;
+  name: string | null;
+  email: string;
+  emailVerified: boolean | null;
+  image: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  projects?: ProjectMembership[];
+  ownedProjects?: Project[];
+  assignedTasks?: Task[];
+};
+
+export type ProjectMembership = {
+  project: {
     id: string;
-    name: string | null;
-    email: string;
-    image: string | null;
+    name: string;
+    status: ProjectStatus;
   };
-  role: string;
+  role: ProjectRole;
+};
+
+// You might already have these types, but if not, here they are for reference:
+export type Project = {
+  id: string;
+  name: string;
+  description: string | null;
+  status: ProjectStatus;
+  dueDate: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+  ownerId: string;
+  owner: User;
+  members: ProjectMembership[];
+  tasks?: Task[];
 };
 
 export type Task = {
@@ -17,17 +44,9 @@ export type Task = {
   status: TaskStatus;
   priority: Priority;
   dueDate: Date | null;
-  assignedToId: string;
-};
-
-export type Project = {
-  id: string;
-  name: string;
-  description: string | null;
-  status: ProjectStatus;
   createdAt: Date;
   updatedAt: Date;
-  dueDate: Date | null;
-  tasks: Task[];
-  members: ProjectMember[];
+  projectId: string;
+  assignedToId: string | null;
+  assignedTo?: User;
 };
