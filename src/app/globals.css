@@ -53,3 +53,30 @@ body {
   scrollbar-color: #3b82f6 #000;
 }
 
+
+.priority-urgent {
+  background-color: #ef4444 !important;
+  border-color: #dc2626 !important;
+}
+
+.priority-high {
+  background-color: #f97316 !important;
+  border-color: #ea580c !important;
+}
+
+.priority-medium {
+  background-color: #eab308 !important;
+  border-color: #ca8a04 !important;
+}
+
+.priority-low {
+  background-color: #22c55e !important;
+  border-color: #16a34a !important;
+}
+
+.completed-task {
+  opacity: 0.7;
+  text-decoration: line-through;
+  background-color: #21CC78 !important;
+  border-color: #11DD56 !important;
+}

@@ -18,26 +18,9 @@ import { Calendar, Filter, Loader2 } from "lucide-react";
 import { TaskStatusBadge } from "@/components/tasks/TaskStatusBadge";
 import { TaskPriorityBadge } from "@/components/tasks/TaskPriorityBadge";
 import { format } from "date-fns";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TasksPageSkeleton } from "@/components/tasks/TasksPageSkeleton";
-
-interface Task {
-  assignedToId: string;
-  createdAt: string;
-  description: string;
-  dueDate: string;
-  id: string;
-  priority: "HIGH" | "MEDIUM" | "LOW" | "URGENT";
-  project: {
-    id: string;
-    name: string;
-    projectId: string;
-    status: "COMPLETED" | "IN_PROGRESS" | "IN_REVIEW" | "TODO";
-  };
-  status: "COMPLETED" | "IN_PROGRESS" | "IN_REVIEW" | "TODO";
-  title: string;
-  updatedAt: string;
-}
+import { Task } from "@/components/tasks";
 
 type FilterValue = "all" | Task["status"] | Task["priority"];
 
@@ -175,7 +158,7 @@ export default function MyTasksPage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={() => router.push('my-tasks/calender')}>
             <Calendar className="mr-2 h-4 w-4" />
             Calendar View
           </Button>
