@@ -17,9 +17,36 @@ const geistMono = localFont({
 })
 
 export const metadata: Metadata = {
-  title: "Projecify",
-  description:
-    "A Next.js application to manage all your projects and collaborate with your team.",
+  metadataBase: new URL('https://projecify.tryntest.in'),
+  title: "Projecify - Project Management & Team Collaboration Tool",
+  description: "Streamline your project management with Projecify. Real-time collaboration, task tracking, team management, and project analytics all in one intuitive platform.",
+  keywords: ["project management", "team collaboration", "task tracking", "agile", "project planning", "team productivity", "tryntest", "dipesh ranjan", "tryntest.in"],
+  authors: [{ name: "Dipesh Ranjan" }],
+  creator: "Dipesh Ranjan",
+  publisher: "Try N Test Foundation Inc",
+  openGraph: {
+    title: "Projecify - Project Management & Team Collaboration Tool",
+    description: "Streamline your project management with Projecify. Real-time collaboration, task tracking, team management, and project analytics all in one intuitive platform.",
+    url: 'https://projecify.tryntest.in',
+    type: "website",
+    siteName: "Projecify",
+    locale: "en_US",
+  },
+  twitter: {
+    title: "Projecify - Project Management & Team Collaboration Tool",
+    description: "Streamline your project management with Projecify. Real-time collaboration, task tracking, team management, and project analytics all in one intuitive platform.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 }
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID

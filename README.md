@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Projecify
 
-## Getting Started
+Projecify is a sleek and powerful web application designed to simplify project management. It allows users to create projects, assign roles, manage tasks, set deadlines, and collaborate effectively—all through an intuitive dashboard.
 
-First, run the development server:
+## Features
+- **User Management**: Create accounts and manage access seamlessly.
+- **Project Creation**: Organize your work by setting up multiple projects.
+- **Team Collaboration**:
+  - Add members to projects.
+  - Assign roles (Admin/Member) for tailored permissions.
+- **Task Management**:
+  - Create tasks and assign them to project members.
+  - Visualize tasks with a full-featured calendar view.
+- **Deadline Management**: Set deadlines for tasks and projects to keep everything on track.
+- **Progress Tracking**:
+  - Update statuses for tasks and projects.
+  - Monitor progress at a glance.
+- **Interactive Dashboard**: A beautifully designed dashboard for effective workflow management.
+- **Dark/Light Mode**: Switch between color themes for better accessibility.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tech Stack
+Projecify leverages a modern and efficient tech stack to deliver high performance and scalability:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Frontend**:
+  - [Next.js](https://nextjs.org/) v14.2.18
+  - [TypeScript](https://www.typescriptlang.org/)
+  - [Tailwind CSS](https://tailwindcss.com/)
+  - [Motion](https://motion.dev/) (prev. Framer Motion) for animations
+  - [ShadCN-UI](https://shadcn.dev/) for reusable UI components
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Backend**:
+  - [Next.js API Routes](https://nextjs.org/docs/app/api-reference) for building APIs
+  - [Prisma ORM](https://www.prisma.io/) for database management
+  - [PostgreSQL](https://www.postgresql.org/) (via [Neon Serverless Postgres](https://neon.tech/))
+  - [NextAuth.js](https://next-auth.js.org/) for authentication
+  - [Bcrypt](https://github.com/kelektiv/node.bcrypt.js) for secure password hashing
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Utilities**:
+  - [Next Themes](https://github.com/pacocoursey/next-themes) for theme management (dark/light mode)
+  - [Sharp](https://sharp.pixelplumbing.com/) for image optimization
+  - [Lucide-react](https://lucide.dev/) / [React Icons](https://react-icons.github.io/react-icons/) for icons
+  - [UploadThing](https://uploadthing.com/) for cloud-based file storage
+  - [FullCalendar](https://fullcalendar.io/) for a rich task calendar view
 
-## Learn More
+## Installation
+Follow these steps to run the project locally:
 
-To learn more about Next.js, take a look at the following resources:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/dipesh2508/Projecify.git
+   cd projecify
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. Set up the environment variables:
+   - Create a `.env` file in the root directory.
+   - Add the necessary variables as specified in the `.env.example` file.
 
-## Deploy on Vercel
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5. Open your browser and navigate to `http://localhost:3000` to view the app.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Contribution
+This project is a solo effort by **Dipesh Ranjan**, showcasing programming and development skills. It is maintained under the organization **Try n Test Foundation, Inc.**.
+
+## License
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+---
+
+Feel free to reach out with feedback or suggestions to improve Projecify!
