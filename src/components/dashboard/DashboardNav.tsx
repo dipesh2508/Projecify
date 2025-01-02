@@ -7,7 +7,8 @@ import {
   FolderKanban, 
   Users2, 
   Settings,
-  PlusCircle
+  PlusCircle,
+  ListTodo
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
@@ -24,6 +25,11 @@ const navItems = [
     title: "Projects",
     href: "/dashboard/projects",
     icon: FolderKanban
+  },
+  {
+    title: "My Tasks",
+    href: "/dashboard/my-tasks",
+    icon: ListTodo
   },
   {
     title: "Team",
