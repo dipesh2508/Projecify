@@ -208,31 +208,61 @@ export default function MyTasksPage() {
 
         <TabsContent value="all" className="mt-4">
           <div className="grid gap-4">
-            {filterTasks(tasks ?? []).map(renderTaskCard)}
+            {filterTasks(tasks ?? []).length > 0 ? (
+              filterTasks(tasks ?? []).map(renderTaskCard)
+            ) : (
+              <div className="text-center py-10">
+                <p className="text-gray-500 dark:text-gray-400">No tasks found</p>
+              </div>
+            )}
           </div>
         </TabsContent>
 
         <TabsContent value="today" className="mt-4">
           <div className="grid gap-4">
-            {filterTasks(getTasksDueToday(tasks ?? [])).map(renderTaskCard)}
+            {filterTasks(getTasksDueToday(tasks ?? [])).length > 0 ? (
+              filterTasks(getTasksDueToday(tasks ?? [])).map(renderTaskCard)
+            ) : (
+              <div className="text-center py-10">
+                <p className="text-gray-500 dark:text-gray-400">No tasks due today</p>
+              </div>
+            )}
           </div>
         </TabsContent>
 
         <TabsContent value="upcoming" className="mt-4">
           <div className="grid gap-4">
-            {filterTasks(getUpcomingTasks(tasks ?? [])).map(renderTaskCard)}
+            {filterTasks(getUpcomingTasks(tasks ?? [])).length > 0 ? (
+              filterTasks(getUpcomingTasks(tasks ?? [])).map(renderTaskCard)
+            ) : (
+              <div className="text-center py-10">
+                <p className="text-gray-500 dark:text-gray-400">No upcoming tasks</p>
+              </div>
+            )}
           </div>
         </TabsContent>
 
         <TabsContent value="overdue" className="mt-4">
           <div className="grid gap-4">
-            {filterTasks(getOverdueTasks(tasks ?? [])).map(renderTaskCard)}
+            {filterTasks(getOverdueTasks(tasks ?? [])).length > 0 ? (
+              filterTasks(getOverdueTasks(tasks ?? [])).map(renderTaskCard)
+            ) : (
+              <div className="text-center py-10">
+                <p className="text-gray-500 dark:text-gray-400">No overdue tasks</p>
+              </div>
+            )}
           </div>
         </TabsContent>
 
         <TabsContent value="completed" className="mt-4">
           <div className="grid gap-4">
-            {filterTasks(getCompletedTasks(tasks ?? [])).map(renderTaskCard)}
+            {filterTasks(getCompletedTasks(tasks ?? [])).length > 0 ? (
+              filterTasks(getCompletedTasks(tasks ?? [])).map(renderTaskCard)
+            ) : (
+              <div className="text-center py-10">
+                <p className="text-gray-500 dark:text-gray-400">No completed tasks</p>
+              </div>
+            )}
           </div>
         </TabsContent>
       </Tabs>

@@ -61,7 +61,6 @@ export default function DashboardPage() {
     return <DashboardSkeleton />
   }
 
-  console.log(projects)
   // Calculate statistics with proper checks
   const urgentTasks = projects.flatMap(p => p.tasks || []).filter(t => t?.priority === Priority.URGENT).length
 
@@ -75,6 +74,46 @@ export default function DashboardPage() {
     )
     return daysUntilDue <= 7 && daysUntilDue > 0
   }).length
+
+  if (projects.length === 0) {
+    return (
+      <div className="flex flex-col gap-6 p-6">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            Welcome to your project dashboard
+          </p>
+        </div>
+
+        <Card className="p-12">
+          <div className="flex flex-col items-center justify-center text-center">
+            <div className="rounded-full bg-gray-100 dark:bg-gray-800 p-3 mb-4">
+              <PlusCircle className="h-6 w-6 text-gray-500 dark:text-gray-400" />
+            </div>
+            <h3 className="text-lg font-semibold mb-2">No Projects Found</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 max-w-sm">
+              You don&apos;t have any projects yet. Create a new project or ask a project admin to add you to their project.
+            </p>
+            <div className="flex gap-2">
+              <Button
+                onClick={() => router.push("/dashboard/projects/new")}
+                size="sm"
+              >
+                Create New Project
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => router.push("/dashboard/my-tasks")}
+                size="sm"
+              >
+                View All Tasks
+              </Button>
+            </div>
+          </div>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <MotionDiv 
