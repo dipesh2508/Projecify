@@ -26,7 +26,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import MotionDiv from "@/components/animations/MotionDiv"
-import { useState, useEffect } from "react"
+import { useState, useEffect, use } from "react"
 import { LoadingButton } from "@/components/shared/LoadingButton"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Dialog, DialogFooter, DialogDescription, DialogTitle, DialogContent } from "@/components/ui/dialog"
@@ -39,19 +39,15 @@ const formSchema = z.object({
   dueDate: z.string().optional(),
 })
 
-type TProject = {
+interface TProject {
     id: string;
     name: string;
     description: string | null;
     status: "IN_PROGRESS" | "COMPLETED" | "ON_HOLD";
     dueDate: string | null;
     ownerId: string;
-    owner: {
-      id: string;
-      name: string;
-      email: string;
-      image: string | null;
-    };
+    createdAt: string;
+    updatedAt: string;
     members: Array<{
       user: {
         id: string;
@@ -62,7 +58,8 @@ type TProject = {
     }>;
   }
 
-export default function EditProjectPage({ params }: { params: { id: string }}) {
+export default function EditProjectPage({ params: paramsPromise }: { params: Promise<{ id: string }> }) {
+  const params = use(paramsPromise);
   const router = useRouter()
   const { toast } = useToast()
   const [isSubmitting, setIsSubmitting] = useState(false)

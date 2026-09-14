@@ -20,7 +20,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useState, use } from "react";
 
 type Task = {
   id: string;
@@ -72,10 +72,11 @@ const priorityConfig = {
 };
 
 export default function TaskPage({
-  params,
+  params: paramsPromise,
 }: {
-  params: { id: string; taskId: string };
+  params: Promise<{ id: string; taskId: string }>;
 }) {
+  const params = use(paramsPromise);
   const router = useRouter();
   const { toast } = useToast();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);

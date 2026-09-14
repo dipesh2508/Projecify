@@ -6,9 +6,10 @@ import prisma from "@/lib/prisma"
 // GET - Get all tasks for a project
 export async function GET(
 	req: Request,
-	{ params }: { params: { projectId: string } }
+	{ params: paramsPromise }: { params: Promise<{ projectId: string }> }
 ) {
 	try {
+		const params = await paramsPromise
 		const session = await getServerSession(authOptions)
 		
 		if (!session?.user?.id) {
@@ -62,9 +63,10 @@ export async function GET(
 // POST - Create a new task
 export async function POST(
 	req: Request,
-	{ params }: { params: { projectId: string } }
+	{ params: paramsPromise }: { params: Promise<{ projectId: string }> }
 ) {
 	try {
+		const params = await paramsPromise
 		const session = await getServerSession(authOptions)
 		
 		if (!session?.user?.id) {

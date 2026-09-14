@@ -26,7 +26,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import MotionDiv from "@/components/animations/MotionDiv";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { LoadingButton } from "@/components/shared/LoadingButton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ProjectMember, Task } from "@/types";
@@ -40,10 +40,11 @@ const formSchema = z.object({
   assignedToId: z.string().optional(),
 });
 export default function EditTaskPage({
-  params,
+  params: paramsPromise,
 }: {
-  params: { id: string; taskId: string };
+  params: Promise<{ id: string; taskId: string }>;
 }) {
+  const params = use(paramsPromise);
   const router = useRouter();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);

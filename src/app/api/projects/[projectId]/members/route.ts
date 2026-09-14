@@ -6,9 +6,10 @@ import prisma from "@/lib/prisma"
 // GET - Get all members of a project
 export async function GET(
   req: Request,
-  { params }: { params: { projectId: string } }
+  { params: paramsPromise }: { params: Promise<{ projectId: string }> }
 ) {
   try {
+    const params = await paramsPromise
     const session = await getServerSession(authOptions)
     
     if (!session?.user?.id) {
@@ -53,9 +54,10 @@ export async function GET(
 // POST - Add a new member to the project
 export async function POST(
   req: Request,
-  { params }: { params: { projectId: string } }
+  { params: paramsPromise }: { params: Promise<{ projectId: string }> }
 ) {
   try {
+    const params = await paramsPromise
     const session = await getServerSession(authOptions)
     
     if (!session?.user?.id) {
@@ -132,9 +134,10 @@ export async function POST(
 // DELETE - Remove member from project
 export async function DELETE(
   req: Request,
-  { params }: { params: { projectId: string } }
+  { params: paramsPromise }: { params: Promise<{ projectId: string }> }
 ) {
   try {
+    const params = await paramsPromise
     const session = await getServerSession(authOptions)
     
     if (!session?.user?.id) {
@@ -176,7 +179,7 @@ export async function DELETE(
       }
     })
 
-    return new NextResponse(null, { status: 204 })
+    return NextResponse.json(null, { status: 204 })
   } catch (error) {
     console.error("[MEMBER_DELETE]", error)
     return new NextResponse("Internal Error", { status: 500 })
@@ -186,9 +189,10 @@ export async function DELETE(
 // PATCH - Update member role
 export async function PATCH(
   req: Request,
-  { params }: { params: { projectId: string } }
+  { params: paramsPromise }: { params: Promise<{ projectId: string }> }
 ) {
   try {
+    const params = await paramsPromise
     const session = await getServerSession(authOptions)
     
     if (!session?.user?.id) {

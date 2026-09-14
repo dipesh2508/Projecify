@@ -6,9 +6,10 @@ import prisma from "@/lib/prisma";
 // GET - Get all tasks assigned to a specific user
 export async function GET(
   req: Request,
-  { params }: { params: { userId: string } }
+  { params: paramsPromise }: { params: Promise<{ userId: string }> }
 ) {
   try {
+    const params = await paramsPromise;
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.id) {

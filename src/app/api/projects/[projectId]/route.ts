@@ -6,9 +6,10 @@ import prisma from "@/lib/prisma"
 // GET - Get a specific project
 export async function GET(
   req: Request,
-  { params }: { params: { projectId: string } }
+  { params: paramsPromise }: { params: Promise<{ projectId: string }> }
 ) {
   try {
+    const params = await paramsPromise
     const session = await getServerSession(authOptions)
     
     if (!session?.user?.id) {
@@ -77,9 +78,10 @@ export async function GET(
 // PUT - Update a project
 export async function PUT(
   req: Request,
-  { params }: { params: { projectId: string } }
+  { params: paramsPromise }: { params: Promise<{ projectId: string }> }
 ) {
   try {
+    const params = await paramsPromise
     const session = await getServerSession(authOptions)
     
     if (!session?.user?.id) {
@@ -157,9 +159,10 @@ export async function PUT(
 // DELETE - Delete a project
 export async function DELETE(
   req: Request,
-  { params }: { params: { projectId: string } }
+  { params: paramsPromise }: { params: Promise<{ projectId: string }> }
 ) {
   try {
+    const params = await paramsPromise
     const session = await getServerSession(authOptions)
     
     if (!session?.user?.id) {

@@ -6,9 +6,10 @@ import prisma from "@/lib/prisma";
 // GET - Get user profile
 export async function GET(
   req: Request,
-  { params }: { params: { userId: string } }
+  { params: paramsPromise }: { params: Promise<{ userId: string }> }
 ) {
   try {
+    const params = await paramsPromise;
     const session = await getServerSession(authOptions);
     
     if (!session?.user?.id) {
@@ -53,9 +54,10 @@ export async function GET(
 // PUT - Update user profile
 export async function PUT(
   req: Request,
-  { params }: { params: { userId: string } }
+  { params: paramsPromise }: { params: Promise<{ userId: string }> }
 ) {
   try {
+    const params = await paramsPromise;
     const session = await getServerSession(authOptions);
     
     if (!session?.user?.id) {
@@ -97,9 +99,10 @@ export async function PUT(
 // DELETE - Delete user account
 export async function DELETE(
   req: Request,
-  { params }: { params: { userId: string } }
+  { params: paramsPromise }: { params: Promise<{ userId: string }> }
 ) {
   try {
+    const params = await paramsPromise;
     const session = await getServerSession(authOptions);
     
     if (!session?.user?.id) {

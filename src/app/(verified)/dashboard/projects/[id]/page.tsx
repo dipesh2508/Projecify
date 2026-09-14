@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import { useApi } from "@/hooks/useApi";
 import { useToast } from "@/hooks/use-toast";
@@ -69,7 +69,8 @@ const statusConfig = {
   },
 };
 
-export default function ProjectPage({ params }: { params: { id: string } }) {
+export default function ProjectPage({ params: paramsPromise }: { params: Promise<{ id: string }> }) {
+  const params = use(paramsPromise);
   const router = useRouter();
   const { toast } = useToast();
   const [taskId, setTaskId] = useState("");

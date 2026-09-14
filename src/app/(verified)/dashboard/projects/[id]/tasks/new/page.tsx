@@ -38,7 +38,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import MotionDiv from "@/components/animations/MotionDiv";
-import { useState } from "react";
+import { useState, use } from "react";
 import { LoadingButton } from "@/components/shared/LoadingButton";
 import { TaskStatus, Priority } from "@prisma/client";
 import { Check, ChevronsUpDown } from "lucide-react";
@@ -64,7 +64,8 @@ const formSchema = z.object({
   assignedToId: z.string().optional(),
 });
 
-export default function NewTaskPage({ params }: { params: { id: string } }) {
+export default function NewTaskPage({ params: paramsPromise }: { params: Promise<{ id: string }> }) {
+  const params = use(paramsPromise);
   const router = useRouter();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
